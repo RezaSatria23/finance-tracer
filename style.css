@@ -633,7 +633,6 @@ input[type="radio"]:checked + .expense-radio {
     border-radius: var(--border-radius);
     overflow: auto;
     transition: all 0.3s ease;
-    -webkit-overflow-scrolling: touch; 
 }
 
 /* Light Mode Modal Styling */
@@ -1314,20 +1313,4 @@ input[type="radio"]:checked + .expense-radio {
         position: fixed;
         z-index: 999;
     }
-}
-/* Pastikan modal fullscreen di mobile */
-@media (max-width: 600px) {
-  .modal {
-    padding: 0;
-  }
-  
-  .modal-content {
-    border-radius: 0;
-    height: 100vh;
-    max-height: 100vh;
-  }
-  
-  #transaction-form {
-    height: calc(100vh - 120px);
-  }
 }
