@@ -1315,3 +1315,19 @@ input[type="radio"]:checked + .expense-radio {
         z-index: 999;
     }
 }
+/* Pastikan modal fullscreen di mobile */
+@media (max-width: 600px) {
+  .modal {
+    padding: 0;
+  }
+  
+  .modal-content {
+    border-radius: 0;
+    height: 100vh;
+    max-height: 100vh;
+  }
+  
+  #transaction-form {
+    height: calc(100vh - 120px);
+  }
+}
