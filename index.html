@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="nameLayers">
+                <h1 class="text"><i class="fas fa-wallet"></i> Finance Tracker</h1>
+            </div>
+            <button id="theme-toggle" class="action-btn">
+                <i class="fas fa-moon"></i>
+            </button>
+            <button id="logout-btn" class="action-btn" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </header>
+
+        <div class="summary-cards">
+            <div class="card balance-card slide-in">
+                <h3>Saldo</h3>
+                <p id="balance-amount">Rp0</p>
+            </div>
+            <div class="card income-card slide-in delay-1">
+                <h3>Pemasukan</h3>
+                <p id="income-amount">Rp0</p>
+            </div>
+            <div class="card expense-card slide-in delay-2">
+                <h3>Pengeluaran</h3>
+                <p id="expense-amount">Rp0</p>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="finance-chart"></canvas>
+        </div>
+
+        <div class="filter-section">
+            <select id="month-filter" class="filter-input">
+                <option value="all">Semua Bulan</option>
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+            </select>
+            <select id="type-filter" class="filter-input">
+                <option value="all">Semua Transaksi</option>
+                <option value="income">Pemasukan</option>
+                <option value="expense">Pengeluaran</option>
+            </select>
+            <button id="export-btn" class="action-btn">
+                <i class="fas fa-file-pdf"></i> Ekspor PDF
+            </button>
+            <button id="export-excel-btn" class="action-btn">
+                <i class="fas fa-file-excel"></i> Ekspor Excel
+            </button>
+        </div>
+
+        <div class="transaction-list">
+            <h2><i class="fas fa-list"></i> Daftar Transaksi</h2>
+            <div id="transactions-container"></div>
+        </div>
+
+        <button id="add-transaction-btn" class="floating-btn pulse"><i class="fas fa-plus"></i></button>
+
+        <div id="transaction-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Tambah Transaksi</h2>
+                <form id="transaction-form">
+                    <div class="form-group">
+                        <label for="transaction-date">Tanggal</label>
+                        <input type="date" id="transaction-date" required>
+                    </div>
+                    <div class="form-group radio-group">
+                        <label>
+                            <input type="radio" name="transaction-type" value="income" checked>
+                            <span class="radio-label income-radio">Pemasukan</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="transaction-type" value="expense">
+                            <span class="radio-label expense-radio">Pengeluaran</span>
+                        </label>
+                    </div>
+                     <!-- Form untuk Pemasukan -->
+                    <div id="income-fields">
+                        <div class="form-group">
+                            <label for="income-source">Dari Siapa</label>
+                            <input type="text" id="income-source" placeholder="Misal: Perusahaan ABC">
+                        </div>
+                        <div class="form-group">
+                            <label for="income-bank">Bank Pemasukan</label>
+                            <select id="income-bank" onchange="toggleOtherInput(this, 'income-bank-container')">
+                                <option value="BCA">BCA</option>
+                                <option value="BRI">BRI</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="BNI">BNI</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <div id="income-bank-container" style="display: none; margin-top: 10px;">
+                                <input type="text" id="income-bank-input" placeholder="Jenis Bank lainnya">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="income-type">Jenis Pemasukan</label>
+                            <select id="income-type" onchange="toggleOtherInput(this, 'income-type-container')">
+                                <option value="Gaji">Gaji</option>
+                                <option value="Bonus">Bonus</option>
+                                <option value="THR">THR</option>
+                                <option value="Investasi">Hasil Investasi</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <div id="income-type-container" style="display: none; margin-top: 10px;">
+                                <input type="text" id="income-type-input" placeholder="Jenis pemasukan lainnya">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Form untuk Pengeluaran -->
+                    <div id="expense-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="expense-source">Sumber Dana</label>
+                            <select id="expense-source" onchange="toggleOtherInput(this, 'expense-source-container')">
+                                <option value="BCA">BCA</option>
+                                <option value="BRI">BRI</option>
+                                <option value="Mandiri">Mandiri</option>
+                                <option value="BNI">BNI</option>
+                                <option value="E-Wallet">E-Wallet</option>
+                                <option value="Cash">Tunai</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <div id="expense-source-container" style="display: none; margin-top: 10px;">
+                                <input type="text" id="expense-source-input" placeholder="Sumber Dana lainnya">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-destination">Tujuan Transaksi</label>
+                            <select id="expense-destination" onchange="toggleOtherInput(this, 'expense-destination-container')">
+                                <option value="Bank">Ke Bank Lain</option>
+                                <option value="Tunai">Tunai</option>
+                                <option value="E-Wallet">E-Wallet</option>
+                                <option value="Merchant">Merchant</option>
+                                <option value="Transfer">Transfer</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <div id="expense-destination-container" style="display: none; margin-top: 10px;">
+                                <input type="text" id="expense-destination-input" placeholder="Tujuan Transaksi Lainnya">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="expense-category">Keperluan</label>
+                            <select id="expense-category" onchange="toggleOtherInput(this, 'expense-category-container')">
+                                <option value="Makanan">Makanan</option>
+                                <option value="Transportasi">Transportasi</option>
+                                <option value="Belanja">Belanja</option>
+                                <option value="Hiburan">Hiburan</option>
+                                <option value="Kesehatan">Kesehatan</option>
+                                <option value="Pendidikan">Pendidikan</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                            <div id="expense-category-container" style="display: none; margin-top: 10px;">
+                                <input type="text" id="expense-category-input" placeholder="Keperluan lainnya">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-amount">Jumlah (Rp)</label>
+                        <input type="number" id="transaction-amount" oninput="validateNumberInput(this)"
+                        pattern="^-?\d+$" placeholder="Masukan Jumlah" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction-description">Deskripsi</label>
+                        <input type="text" id="transaction-description" placeholder="Misal: Gaji Bulanan" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Simpan Transaksi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="edit-transaction-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Transaksi</h2>
+            <form id="edit-transaction-form">
+                <div class="form-group">
+                    <label for="edit-transaction-date">Tanggal</label>
+                    <input type="date" id="edit-transaction-date" required>
+                </div>
+                <div class="form-group radio-group">
+                    <label>
+                        <input type="radio" name="edit-transaction-type" value="income" checked>
+                        <span class="radio-label income-radio">Pemasukan</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="edit-transaction-type" value="expense">
+                        <span class="radio-label expense-radio">Pengeluaran</span>
+                    </label>
+                </div>
+                
+                <!-- Form untuk Pemasukan -->
+                <div id="edit-income-fields">
+                    <div class="form-group">
+                        <label for="edit-income-source">Dari Siapa</label>
+                        <input type="text" id="edit-income-source" placeholder="Misal: Perusahaan ABC">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-income-bank">Bank Pemasukan</label>
+                        <select id="edit-income-bank" onchange="toggleOtherInput(this, 'edit-income-bank-container')">
+                            <option value="BCA">BCA</option>
+                            <option value="BRI">BRI</option>
+                            <option value="Mandiri">Mandiri</option>
+                            <option value="BNI">BNI</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <div id="edit-income-bank-container" style="display: none; margin-top: 10px;">
+                            <input type="text" id="edit-income-bank-input" placeholder="Jenis Bank lainnya">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-income-type">Jenis Pemasukan</label>
+                        <select id="edit-income-type" onchange="toggleOtherInput(this, 'edit-income-type-container')">
+                            <option value="Gaji">Gaji</option>
+                            <option value="Bonus">Bonus</option>
+                            <option value="THR">THR</option>
+                            <option value="Investasi">Hasil Investasi</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <div id="edit-income-type-container" style="display: none; margin-top: 10px;">
+                            <input type="text" id="edit-income-type-input" placeholder="Jenis pemasukan lainnya">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form untuk Pengeluaran -->
+                <div id="edit-expense-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="edit-expense-source">Sumber Dana</label>
+                        <select id="edit-expense-source" onchange="toggleOtherInput(this, 'edit-expense-source-container')">
+                            <option value="BCA">BCA</option>
+                            <option value="BRI">BRI</option>
+                            <option value="Mandiri">Mandiri</option>
+                            <option value="BNI">BNI</option>
+                            <option value="E-Wallet">E-Wallet</option>
+                            <option value="Cash">Tunai</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <div id="edit-expense-source-container" style="display: none; margin-top: 10px;">
+                            <input type="text" id="edit-expense-source-input" placeholder="Sumber Dana lainnya">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-expense-destination">Tujuan Transaksi</label>
+                        <select id="edit-expense-destination" onchange="toggleOtherInput(this, 'edit-expense-destination-container')">
+                            <option value="Bank">Ke Bank Lain</option>
+                            <option value="Tunai">Tunai</option>
+                            <option value="E-Wallet">E-Wallet</option>
+                            <option value="Merchant">Merchant</option>
+                            <option value="Transfer">Transfer</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <div id="edit-expense-destination-container" style="display: none; margin-top: 10px;">
+                            <input type="text" id="edit-expense-destination-input" placeholder="Tujuan Transaksi Lainnya">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-expense-category">Keperluan</label>
+                        <select id="edit-expense-category" onchange="toggleOtherInput(this, 'edit-expense-category-container')">
+                            <option value="Makanan">Makanan</option>
+                            <option value="Transportasi">Transportasi</option>
+                            <option value="Belanja">Belanja</option>
+                            <option value="Hiburan">Hiburan</option>
+                            <option value="Kesehatan">Kesehatan</option>
+                            <option value="Pendidikan">Pendidikan</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <div id="edit-expense-category-container" style="display: none; margin-top: 10px;">
+                            <input type="text" id="edit-expense-category-input" placeholder="Keperluan lainnya">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-transaction-amount">Jumlah (Rp)</label>
+                    <input type="number" id="edit-transaction-amount" oninput="validateNumberInput(this)"
+                    pattern="^-?\d+$" placeholder="Masukan Jumlah" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-transaction-description">Deskripsi</label>
+                    <input type="text" id="edit-transaction-description" placeholder="Misal: Gaji Bulanan" required>
+                </div>
+                <button type="submit" class="submit-btn">Update Transaksi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Logout - Tempatkan sebelum penutup </body> -->
+    <div id="logout-modal" class="modal">
+        <div class="modal-content">
+            <div class="logout-animation">
+                <div class="circle-animation">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                </div>
+                <!-- Gambar untuk Light Mode -->
+                <img src="light-icon-logout.png" class="custom-logout-icon light-icon" title="Logout">
+                <!-- Gambar untuk Dark Mode -->
+                <img src="dark-icon-logout.png" class="custom-logout-icon dark-icon" alt="Logout">
+                <div class="wave"></div>
+            </div>
+            <h3>Yakin ingin keluar?</h3>
+            <p>Anda perlu login kembali untuk mengakses aplikasi</p>
+            <div class="modal-actions">
+                <button id="cancel-logout" class="btn secondary">Batal</button>
+                <button id="confirm-logout" class="btn danger">
+                    <span>Keluar</span>
+                    <div class="logout-wave"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+    <script src="session.js"></script>
+    <script src="excelexport.js"></script>
+    <script src="pdfexport.js"></script>
+</body>
+</html>

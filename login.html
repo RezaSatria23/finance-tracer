@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Tracker Pro | Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <div class="auth-background">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="brand-logo">
+                    <i class="fas fa-wallet"></i>
+                    <span>FinanceTracker</span>
+                </div>
+                
+                <div class="auth-switcher">
+                    <button class="active" data-tab="login">Login</button>
+                    <button data-tab="register">Register</button>
+                </div>
+                
+                <form id="loginForm" class="auth-form active">
+                    <div class="input-group floating">
+                        <input type="text" id="username" required>
+                        <label for="username">Username</label>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <div class="input-group floating">
+                        <input type="password" id="password" required>
+                        <label for="password">Password</label>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <span>Login</span>
+                        <div class="wave"></div>
+                    </button>
+                    <div class="auth-footer">
+                        <a href="#" class="forgot-password">Lupa password?</a>
+                    </div>
+                </form>
+                
+                <form id="registerForm" class="auth-form">
+                    <div class="input-group floating">
+                        <input type="text" id="fullname" required>
+                        <label for="fullname">Nama Lengkap</label>
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    
+                    <div class="input-group floating">
+                        <input type="email" id="email" required>
+                        <label for="email">Email</label>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    
+                    <div class="input-group floating">
+                        <input type="text" id="regUsername" required>
+                        <label for="regUsername">Username</label>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <div class="input-group floating">
+                        <input type="password" id="regPassword" required>
+                        <label for="regPassword">Password</label>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    
+                    <div class="input-group floating">
+                        <input type="password" id="confirmPassword" required>
+                        <label for="confirmPassword">Konfirmasi Password</label>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">
+                        <span>Daftar</span>
+                        <div class="wave"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Lupa Password</h3>
+            <p>Masukkan username atau email Anda untuk memulihkan password</p>
+            <form id="forgotPasswordForm">
+                <div class="input-group floating" style="margin-top: 15px;">
+                    <input type="text" id="recoveryInput" required>
+                    <label for="recoveryInput">Username atau Email</label>
+                    <i class="fas fa-user"></i>
+                </div>
+                
+                <button type="submit" class="auth-btn">
+                    <span>Pulihkan Password</span>
+                    <div class="wave"></div>
+                </button>
+                
+                <div id="passwordResult" style="margin-top: 20px; display: none;">
+                    <p>Password Anda adalah: <strong id="recoveredPassword"></strong></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="auth.js"></script>
+</body>
+</html>
