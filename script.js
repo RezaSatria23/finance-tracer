@@ -668,3 +668,36 @@ window.closeEditModal = closeEditModal;
 window.toggleOtherInput = toggleOtherInput;
 window.validateNumberInput = validateNumberInput;
 
+// ===== PROTECTION LAYER ===== //
+// 1. Blokir klik kanan dan shortcut keyboard
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+const blockedKeys = {
+  73: true, // I
+  74: true, // J
+  67: true, // C
+  123: true // F12
+};
+
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey && e.shiftKey && blockedKeys[e.keyCode]) || e.keyCode === 123) {
+    e.preventDefault();
+    alert('Akses developer tools tidak diizinkan');
+    window.location.href = "/"; // Redirect ke halaman utama
+  }
+});
+
+// 2. Deteksi DevTools
+let devToolsOpen = false;
+const threshold = 160; // Ukuran threshold DevTools
+
+setInterval(() => {
+  const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+  const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+  
+  if ((widthThreshold || heightThreshold) && !devToolsOpen) {
+    devToolsOpen = true;
+    document.body.innerHTML = '<h1 style="text-align:center;margin-top:50px">Akses tidak sah terdeteksi</h1>';
+    window.location.href = "/"; // Redirect atau lakukan aksi lain
+  }
+}, 500);
