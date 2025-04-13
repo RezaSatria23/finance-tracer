@@ -719,15 +719,4 @@ if (isIOS) {
     console.warn = noop;
     console.error = noop; // Biarkan error tetap terlihat jika perlu
   }
-}
-// Deteksi devtools dan cegah reload (tambahkan di awal script.js)
-(function() {
-    const devtools = /./;
-    devtools.toString = function() {
-      if (!debug) {
-        window.location.reload(); // Force reload jika devtools terbuka
-      }
-      return '';
-    };
-    console.log('%c', devtools);
-  })();
+};
