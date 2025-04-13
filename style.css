@@ -537,6 +537,19 @@ input[type="radio"]:checked + .expense-radio {
     .transaction-amount {
         margin-top: 10px;
     }
+    .modal-content {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+    }
+    
+    /* Pastikan form bisa discroll */
+    #transaction-form {
+        max-height: calc(90vh - 150px);
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
 }
 /* Tambahkan di style.css */
 .chart-container {
@@ -1307,22 +1320,6 @@ input[type="radio"]:checked + .expense-radio {
 
 [data-theme="dark"] .close-btn {
     color: white !important;
-}
-/* Tambahkan di style.css */
-@media (max-width: 600px) {
-    .floating-btn {
-        bottom: 20px;
-        right: 20px;
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
-    
-    /* Pastikan tombol tidak tertutup oleh keyboard di mobile */
-    .floating-btn {
-        position: fixed;
-        z-index: 999;
-    }
 }
 /* Tambahkan di akhir style.css */
 @supports (-webkit-touch-callout: none) {
