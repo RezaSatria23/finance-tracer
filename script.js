@@ -720,3 +720,14 @@ if (isIOS) {
     console.error = noop; // Biarkan error tetap terlihat jika perlu
   }
 };
+// Atur scroll saat input fokus
+document.querySelectorAll('#transaction-form input, #transaction-form select, #transaction-form textarea').forEach(el => {
+  el.addEventListener('focus', () => {
+    setTimeout(() => {
+      el.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }, 300);
+  });
+});

@@ -349,8 +349,17 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease;
+    -webkit-overflow-scrolling: auto;
 }
-
+.modal-scroll-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 .modal-content {
     background-color: white;
     padding: 25px;
@@ -640,6 +649,7 @@ input[type="radio"]:checked + .expense-radio {
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow-y: auto;
 }
 
 [data-theme="light"] .modal-content::after {
@@ -1314,3 +1324,22 @@ input[type="radio"]:checked + .expense-radio {
         z-index: 999;
     }
 }
+/* Tambahkan di akhir style.css */
+@supports (-webkit-touch-callout: none) {
+    /* Perbaikan khusus Safari iOS */
+    .modal-scroll-container {
+      overflow-y: scroll;
+    }
+    
+    .modal-content {
+      transform: translateZ(0);
+    }
+  }
+  
+  /* Pastikan body tidak scroll */
+  body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
