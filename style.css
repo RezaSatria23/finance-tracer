@@ -349,17 +349,8 @@ body {
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease;
-    -webkit-overflow-scrolling: auto;
 }
-.modal-scroll-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
+
 .modal-content {
     background-color: white;
     padding: 25px;
@@ -537,19 +528,6 @@ input[type="radio"]:checked + .expense-radio {
     .transaction-amount {
         margin-top: 10px;
     }
-    .modal-content {
-    width: 100%;
-    border-radius: 20px 20px 0 0;
-    max-height: 90vh;
-    overflow-y: auto;
-    }
-    
-    /* Pastikan form bisa discroll */
-    #transaction-form {
-        max-height: calc(90vh - 150px);
-        overflow-y: auto;
-        padding-bottom: 20px;
-    }
 }
 /* Tambahkan di style.css */
 .chart-container {
@@ -653,7 +631,7 @@ input[type="radio"]:checked + .expense-radio {
 .modal-content {
     position: relative;
     border-radius: var(--border-radius);
-    overflow: auto;
+    overflow: hidden;
     transition: all 0.3s ease;
 }
 
@@ -662,7 +640,6 @@ input[type="radio"]:checked + .expense-radio {
     background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.08);
-    overflow-y: auto;
 }
 
 [data-theme="light"] .modal-content::after {
@@ -1177,87 +1154,39 @@ input[type="radio"]:checked + .expense-radio {
 }
 
 /* Animasi Ikon/Gambar */
-/* Base Style untuk Gambar */
 .custom-logout-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /* Base Style */
     width: 70px;
     height: 70px;
     object-fit: contain;
-    z-index: 2;
-    transition: all 0.5s ease;
-    /* Animasi */
-    animation: 
-        float 3s ease-in-out infinite,
-        pulse 2s ease-out infinite;
-}
-
-/* Light Mode Image */
-[data-theme="light"] .custom-logout-icon.light-icon {
-    display: block;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    /* Style khusus light mode */
-    padding: 8px;
-    background-color: rgba(255,255,255,0.9);
+    padding: 10px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 71, 87, 0.2);
-}
-
-[data-theme="light"] .custom-logout-icon.dark-icon {
-    display: none;
-}
-
-/* Dark Mode Image */
-[data-theme="dark"] .custom-logout-icon.dark-icon {
-    display: block;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)) brightness(1.1);
-    /* Style khusus dark mode */
-    padding: 8px;
-    background-color: rgba(255, 71, 87, 0.15);
-    border-radius: 50%;
-    border: 2px solid rgba(255, 107, 129, 0.3);
-}
-
-[data-theme="dark"] .custom-logout-icon.light-icon {
-    display: none;
-}
-
-/* Animasi untuk Gambar */
-@keyframes float {
-    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-    50% { transform: translate(-50%, -50%) translateY(-8px); }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.05); }
+    
+    /* Light Mode */
+    [data-theme="light"] & {
+        background-color: rgba(255, 71, 87, 0.1);
+        border: 2px solid rgba(255, 71, 87, 0.2);
+    }
+    
+    /* Dark Mode */
+    [data-theme="dark"] & {
+        background-color: rgba(255, 71, 87, 0.2);
+        border: 2px solid rgba(255, 71, 87, 0.3);
+        filter: brightness(1.1);
+    }
 }
 
 /* Animasi Lingkaran */
 .circle {
-    /* Base circle style */
-    position: absolute;
-    border-radius: 50%;
-    animation: circlePulse 2s infinite;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    
-    /* Light mode */
+    /* Warna berbeda untuk setiap tema */
     [data-theme="light"] & {
-        border: 2px solid rgba(255, 71, 87, 0.6);
+        border-color: rgba(255, 71, 87, 0.6);
     }
-    
-    /* Dark mode */
     [data-theme="dark"] & {
-        border: 2px solid rgba(255, 107, 129, 0.8);
+        border-color: rgba(255, 107, 129, 0.8);
     }
 }
+
 /* Wave Animation */
 .logout-animation .wave {
     [data-theme="light"] & {
@@ -1290,53 +1219,3 @@ input[type="radio"]:checked + .expense-radio {
         height: 60px;
     }
 }
-#export-excel-btn {
-    background-color: #21a366; /* Warna hijau Excel */
-    margin-left: 10px;
-}
-
-#export-excel-btn:hover {
-    background-color: #1a8a57;
-}
-
-.fa-file-excel {
-    margin-right: 5px;
-}
-/* Tambahkan di style.css */
-[data-theme="dark"] .modal-content,
-[data-theme="dark"] .modal-content h2,
-[data-theme="dark"] .form-group label,
-[data-theme="dark"] .radio-label,
-[data-theme="dark"] .form-group input,
-[data-theme="dark"] .form-group select {
-    color: white !important;
-}
-
-[data-theme="dark"] .form-group input::placeholder,
-[data-theme="dark"] .form-group select {
-    color: #e0e0e0 !important;
-    opacity: 1;
-}
-
-[data-theme="dark"] .close-btn {
-    color: white !important;
-}
-/* Tambahkan di akhir style.css */
-@supports (-webkit-touch-callout: none) {
-    /* Perbaikan khusus Safari iOS */
-    .modal-scroll-container {
-      overflow-y: scroll;
-    }
-    
-    .modal-content {
-      transform: translateZ(0);
-    }
-  }
-  
-  /* Pastikan body tidak scroll */
-  body.modal-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-  }
