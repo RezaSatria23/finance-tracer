@@ -65,7 +65,14 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
+html, body {
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    -webkit-overflow-scrolling: auto;
+  }
+  
 body {
     background-color: var(--light-color);
     color: var(--dark-color);
@@ -112,6 +119,9 @@ body {
 }
 
 .app-container {
+    width: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -631,7 +641,7 @@ input[type="radio"]:checked + .expense-radio {
 .modal-content {
     position: relative;
     border-radius: var(--border-radius);
-    overflow: hidden;
+    overflow: auto;
     transition: all 0.3s ease;
 }
 
@@ -1279,3 +1289,85 @@ input[type="radio"]:checked + .expense-radio {
 .fa-file-excel {
     margin-right: 5px;
 }
+/* Tambahkan di style.css */
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal-content h2,
+[data-theme="dark"] .form-group label,
+[data-theme="dark"] .radio-label,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select {
+    color: white !important;
+}
+
+[data-theme="dark"] .form-group input::placeholder,
+[data-theme="dark"] .form-group select {
+    color: #e0e0e0 !important;
+    opacity: 1;
+}
+
+[data-theme="dark"] .close-btn {
+    color: white !important;
+}
+/* Tambahkan di style.css */
+@media (max-width: 600px) {
+    .floating-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    /* Pastikan tombol tidak tertutup oleh keyboard di mobile */
+    .floating-btn {
+        position: fixed;
+        z-index: 999;
+    }
+}
+/* Tambahkan di style.css */
+@media (max-width: 600px) {
+    /* Perbaikan untuk modal di mobile */
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        padding: 20px 15px;
+    }
+    
+    /* Perbaikan form di mobile */
+    #transaction-form {
+        max-height: calc(90vh - 120px);
+    }
+    
+    /* Perbaikan input di mobile */
+    .form-group input, 
+    .form-group select {
+        font-size: 16px; /* Mencegah zoom otomatis di iOS */
+    }
+    
+    /* Perbaikan tombol aksi */
+    .action-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* Pastikan floating button selalu di atas */
+    .floating-btn {
+        z-index: 1001;
+    }
+}
+/* Perbaikan khusus untuk iPhone X-14 */
+@supports (-webkit-touch-callout: none) {
+    body {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+    
+    .app-container {
+      height: 100vh;
+      height: -webkit-fill-available;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }

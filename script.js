@@ -558,6 +558,26 @@ function getCurrentUser() {
 
 // Inisialisasi saat DOM siap
 document.addEventListener('DOMContentLoaded', function() {
+    // Cegah reload pada mobile
+    window.addEventListener('touchmove', function(e) {
+        if (e.target.classList.contains('modal-content') || 
+            e.target.closest('.modal-content')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Cegah double submit
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Memproses...';
+            }
+        });
+    });
+
     // Pengecekan session
     const currentUser = JSON.parse(localStorage.getItem('currentFinanceUser'));
     if (!currentUser) {
@@ -686,18 +706,28 @@ document.addEventListener('keydown', (e) => {
     window.location.href = "/"; // Redirect ke halaman utama
   }
 });
-
-// 2. Deteksi DevTools
-let devToolsOpen = false;
-const threshold = 160; // Ukuran threshold DevTools
-
-setInterval(() => {
-  const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-  const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+// Tambahkan di awal file:
+let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+if (isIOS) {
+  // Nonaktifkan fitur devtools untuk iOS
+  Object.defineProperty(window, '__REACT_DEVTOOLS_GLOBAL_HOOK__', { value: null });
   
-  if ((widthThreshold || heightThreshold) && !devToolsOpen) {
-    devToolsOpen = true;
-    document.body.innerHTML = '<h1 style="text-align:center;margin-top:50px">Akses tidak sah terdeteksi</h1>';
-    window.location.href = "/"; // Redirect atau lakukan aksi lain
+  // Blok console yang tidak perlu
+  const noop = () => {};
+  if (!debug) {
+    console.log = noop;
+    console.warn = noop;
+    console.error = noop; // Biarkan error tetap terlihat jika perlu
   }
-}, 500);
+}
+// Deteksi devtools dan cegah reload (tambahkan di awal script.js)
+(function() {
+    const devtools = /./;
+    devtools.toString = function() {
+      if (!debug) {
+        window.location.reload(); // Force reload jika devtools terbuka
+      }
+      return '';
+    };
+    console.log('%c', devtools);
+  })();
