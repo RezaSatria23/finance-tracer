@@ -720,47 +720,25 @@ if (isIOS) {
     console.error = noop; // Biarkan error tetap terlihat jika perlu
   }
 };
-// Fungsi untuk mengatur scroll di iOS
-function setupMobileScroll() {
-  const modalBody = document.querySelector('.modal-body');
-  let startY = 0;
-
-  modalBody.addEventListener('touchstart', function(e) {
-    startY = e.touches[0].clientY;
-  }, { passive: true });
-
-  modalBody.addEventListener('touchmove', function(e) {
-    const y = e.touches[0].clientY;
-    const isScrollingDown = y < startY;
-    const isAtTop = modalBody.scrollTop === 0;
-    const isAtBottom = modalBody.scrollHeight - modalBody.scrollTop <= modalBody.clientHeight;
-
-    if ((isAtTop && !isScrollingDown) || (isAtBottom && isScrollingDown)) {
-      e.preventDefault();
+// Fungsi untuk menyesuaikan tinggi form
+function adjustFormLayout() {
+    const modal = document.getElementById('transaction-modal');
+    const form = document.getElementById('transaction-form');
+    
+    if (window.innerWidth <= 600) {
+        // Mode mobile - tampilkan fullscreen dari bawah
+        modal.style.alignItems = 'flex-end';
+        form.style.maxHeight = 'none';
+    } else {
+        // Mode desktop - tampilkan sebagai modal tengah
+        modal.style.alignItems = 'center';
+        form.style.maxHeight = 'calc(90vh - 100px)';
     }
-  }, { passive: false });
 }
 
-// Buka modal
-document.getElementById('add-transaction-btn').addEventListener('click', function() {
-  const modal = document.getElementById('transaction-modal');
-  modal.classList.add('show');
-  setTimeout(setupMobileScroll, 100);
+// Panggil saat modal dibuka dan saat resize
+document.getElementById('add-transaction-btn').addEventListener('click', () => {
+    adjustFormLayout();
 });
 
-// Tutup modal
-document.querySelector('.close-btn').addEventListener('click', function() {
-  document.getElementById('transaction-modal').classList.remove('show');
-});
-
-// Auto-scroll ke input yang aktif
-document.querySelectorAll('#transaction-form input, #transaction-form select').forEach(input => {
-  input.addEventListener('focus', function() {
-    setTimeout(() => {
-      this.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'center'
-      });
-    }, 300);
-  });
-});
+window.addEventListener('resize', adjustFormLayout);
