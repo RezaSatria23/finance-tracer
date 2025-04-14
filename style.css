@@ -312,7 +312,7 @@ body {
     z-index: 1000;
     display: none;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 20px;
@@ -324,8 +324,9 @@ body {
     padding: 25px;
     border-radius: var(--border-radius);
     width: 100%;
+    margin: 20px 0;
     max-width: 500px;
-    max-height: 90vh;
+    max-height: 85vh;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -336,8 +337,8 @@ body {
 .modal-body {
     flex: 1;
     overflow-y: auto;
-    overflow-x: hidden;
-    padding: 5px;
+    padding-right: 5px; /* Beri ruang untuk scrollbar */
+    margin-right: -5px;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -949,11 +950,19 @@ input[type="radio"]:checked + .expense-radio {
     }
     
     /* Mobile form scrolling */
+    .modal {
+        padding: 10px;
+        align-items: flex-start;
+    }
+    
+    .modal-content {
+        max-height: 90vh;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
     .modal-body {
-        max-height: 60vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 20px;
+        max-height: calc(90vh - 150px); /* Sesuaikan dengan tinggi header/footer */
+        overflow-y: scroll;
     }
     
     /* Fix for iOS input zoom */
@@ -979,7 +988,7 @@ input[type="radio"]:checked + .expense-radio {
 
 /* Scrollbar styling */
 .modal-body::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
 }
 
 .modal-body::-webkit-scrollbar-thumb {
