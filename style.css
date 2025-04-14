@@ -311,9 +311,10 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     display: none;
+    justify-content: center;
+    align-items: center;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch; /* Untuk smooth scroll di iOS */
-    overscroll-behavior: contain; /* Mencegah scroll bleed ke body */
+    -webkit-overflow-scrolling: touch;
     padding: 20px;
     animation: fadeIn 0.3s ease;
 }
@@ -324,28 +325,20 @@ body {
     border-radius: var(--border-radius);
     width: 100%;
     max-width: 500px;
-    margin: 20px auto; /* Auto untuk posisi horizontal */
+    max-height: 90vh;
     position: relative;
     display: flex;
     flex-direction: column;
-    animation: slideUp 0.4s ease;
-    min-height: auto; /* Pastikan tidak ada height tetap */
+    overflow: hidden;
     animation: slideUp 0.4s ease;
 }
 
 .modal-body {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    /* Perbaikan untuk scroll halus */
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    padding-right: 8px; /* Ruang untuk scrollbar */
-    /* Perbaikan rendering GPU */
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
 }
 
 .close-btn {
@@ -956,10 +949,6 @@ input[type="radio"]:checked + .expense-radio {
     }
     
     /* Mobile form scrolling */
-    .modal {
-        padding: 0;
-        align-items: stretch;
-    }
     .modal-body {
         max-height: 60vh;
         overflow-y: auto;
