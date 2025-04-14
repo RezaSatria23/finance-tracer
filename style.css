@@ -960,30 +960,11 @@ input[type="radio"]:checked + .expense-radio {
         padding: 0;
         align-items: stretch;
     }
-    .modal-content {
-        margin: 0;
-        border-radius: 0;
-        min-height: 100vh;
-        max-height: 100vh;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
     .modal-body {
-        flex: 1;
-        overflow-y: scroll;
+        max-height: 60vh;
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        scroll-snap-type: y proximity;
-        scroll-padding: 20px;
-        /* Perbaikan performa scrolling */
-        will-change: transform;
-        /* Hilangkan momentum scrolling lama */
-        overflow-scrolling: auto;
-    }
-
-    .modal-header, 
-    .modal-footer {
-        flex-shrink: 0; /* Pastikan header/footer tidak ikut scroll */
+        padding-bottom: 20px;
     }
     
     /* Fix for iOS input zoom */
@@ -1006,39 +987,22 @@ input[type="radio"]:checked + .expense-radio {
         max-height: 55vh;
     }
 }
-/* Perbaikan scrollbar (untuk browser non-WebKit) */
-.modal-body {
-    scrollbar-color: var(--primary-color) rgba(0,0,0,0.1);
-    scrollbar-width: thin;
-}
+
 /* Scrollbar styling */
 .modal-body::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 6px;
 }
 
 .modal-body::-webkit-scrollbar-thumb {
     background-color: var(--primary-color);
-    border-radius: 10px;
-    transition: all 0.3s;
-}
-.modal-body::-webkit-scrollbar-thumb:hover {
-    background-color: var(--secondary-color);
+    border-radius: 3px;
 }
 
 .modal-body::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
 }
 
 /* Additional animations */
-
-/* Animasi smooth untuk scroll */
-@keyframes smoothScroll {
-    from { scroll-position: 0; }
-    to { scroll-position: 100; }
-}
-
 @keyframes float {
     0%, 100% { transform: translate(-50%, -50%) translateY(0); }
     50% { transform: translate(-50%, -50%) translateY(-8px); }
@@ -1067,17 +1031,5 @@ input[type="radio"]:checked + .expense-radio {
     }
     50% {
         transform: translateX(-50%) scale(1.2);
-    }
-}
-/* Perbaikan khusus iOS */
-@supports (-webkit-touch-callout: none) {
-    .modal-body {
-        /* Perbaikan untuk Safari iOS */
-        -webkit-overflow-scrolling: touch;
-        overflow: auto;
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-    .modal-content {
-        max-height: -webkit-fill-available;
     }
 }
