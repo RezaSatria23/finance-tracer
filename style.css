@@ -65,25 +65,12 @@
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-}
 
 body {
     background-color: var(--light-color);
     color: var(--dark-color);
     transition: var(--transition);
     line-height: 1.6;
-    min-height: 100vh;
 
     /* Animasi background untuk dark mode */
     background-size: 300% 300%;
@@ -129,16 +116,15 @@ body {
     margin: 0 auto;
     padding: 20px;
     min-height: 100vh;
-    flex: 1;
 }
 
 .app-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
     margin-bottom: 30px;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     flex-wrap: wrap;
 }
 
@@ -356,15 +342,13 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
 .modal-content {
@@ -377,7 +361,6 @@ body {
     overflow-y: auto;
     position: relative;
     animation: slideUp 0.4s ease;
-    margin: 20px auto;
 }
 
 .close-btn {
@@ -522,26 +505,9 @@ input[type="radio"]:checked + .expense-radio {
         box-shadow: 0 0 0 0 rgba(67, 97, 238, 0);
     }
 }
-/* Form Container */
-#transaction-form {
-  overflow-y: auto;
-  flex: 1;
-  padding-right: 0.5rem; /* Untuk memberi ruang scrollbar */
-}
-/* Responsive Design */
-@media (max-width: 600px) {  
-    /* Modal */
-    .modal {
-        padding: 0;
-        align-items: flex-end;
-    }
-      
-      /* Form */
-    #transaction-form {
-    max-height: calc(85vh - 120px); /* Tinggi modal - tinggi header dan tombol */
-    padding-bottom: 1rem;
-    }
 
+/* Responsive Design */
+@media (max-width: 600px) {
     .app-header h1 {
         font-size: 1.5rem;
     }
@@ -1335,10 +1301,16 @@ input[type="radio"]:checked + .expense-radio {
 /* Tambahkan di style.css */
 @media (max-width: 600px) {
     .floating-btn {
-        bottom: max(20px, env(safe-area-inset-bottom));
-        right: max(20px, env(safe-area-inset-right));
+        bottom: 20px;
+        right: 20px;
         width: 50px;
         height: 50px;
         font-size: 1.3rem;
+    }
+    
+    /* Pastikan tombol tidak tertutup oleh keyboard di mobile */
+    .floating-btn {
+        position: fixed;
+        z-index: 999;
     }
 }
