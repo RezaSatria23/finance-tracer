@@ -71,6 +71,7 @@ body {
     color: var(--dark-color);
     transition: var(--transition);
     line-height: 1.6;
+    min-height: 100vh;
 
     /* Animasi background untuk dark mode */
     background-size: 300% 300%;
@@ -342,13 +343,15 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     justify-content: center;
     align-items: center;
     animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .modal-content {
@@ -361,6 +364,7 @@ body {
     overflow-y: auto;
     position: relative;
     animation: slideUp 0.4s ease;
+    margin: 20px auto;
 }
 
 .close-btn {
@@ -507,7 +511,28 @@ input[type="radio"]:checked + .expense-radio {
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 600px) {  
+    /* Modal */
+    .modal {
+        padding: 0;
+        align-items: flex-end;
+    }
+      
+    .modal-content {
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        margin: 0;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+      
+      /* Form */
+    #transaction-form {
+        max-height: calc(90vh - 120px);
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+
     .app-header h1 {
         font-size: 1.5rem;
     }
@@ -1301,16 +1326,10 @@ input[type="radio"]:checked + .expense-radio {
 /* Tambahkan di style.css */
 @media (max-width: 600px) {
     .floating-btn {
-        bottom: 20px;
-        right: 20px;
+        bottom: max(20px, env(safe-area-inset-bottom));
+        right: max(20px, env(safe-area-inset-right));
         width: 50px;
         height: 50px;
         font-size: 1.3rem;
-    }
-    
-    /* Pastikan tombol tidak tertutup oleh keyboard di mobile */
-    .floating-btn {
-        position: fixed;
-        z-index: 999;
     }
 }
