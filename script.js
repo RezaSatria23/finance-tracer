@@ -720,25 +720,3 @@ if (isIOS) {
     console.error = noop; // Biarkan error tetap terlihat jika perlu
   }
 };
-// Fungsi untuk menyesuaikan tinggi form
-function adjustFormLayout() {
-    const modal = document.getElementById('transaction-modal');
-    const form = document.getElementById('transaction-form');
-    
-    if (window.innerWidth <= 600) {
-        // Mode mobile - tampilkan fullscreen dari bawah
-        modal.style.alignItems = 'flex-end';
-        form.style.maxHeight = 'none';
-    } else {
-        // Mode desktop - tampilkan sebagai modal tengah
-        modal.style.alignItems = 'center';
-        form.style.maxHeight = 'calc(90vh - 100px)';
-    }
-}
-
-// Panggil saat modal dibuka dan saat resize
-document.getElementById('add-transaction-btn').addEventListener('click', () => {
-    adjustFormLayout();
-});
-
-window.addEventListener('resize', adjustFormLayout);
