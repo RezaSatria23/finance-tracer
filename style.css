@@ -355,14 +355,11 @@ body {
     background-color: white;
     padding: 25px;
     border-radius: var(--border-radius);
-    padding: 20px;
-    max-width: 500px;
-    position: relative;
-
-    max-height: calc(100vh - 40px); /* Sesuaikan dengan viewport */
-    overflow-y: auto; /* Hanya scroll jika konten terlalu panjang */
-    padding: 20px;
     width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
     animation: slideUp 0.4s ease;
 }
 
