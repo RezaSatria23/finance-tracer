@@ -720,14 +720,23 @@ if (isIOS) {
     console.error = noop; // Biarkan error tetap terlihat jika perlu
   }
 };
-// Atur scroll saat input fokus
-document.querySelectorAll('#transaction-form input, #transaction-form select, #transaction-form textarea').forEach(el => {
-  el.addEventListener('focus', () => {
+// Auto-scroll ke input yang aktif
+document.querySelectorAll('#transaction-form input, #transaction-form select').forEach(el => {
+  el.addEventListener('focus', function() {
     setTimeout(() => {
-      el.scrollIntoView({ 
+      this.scrollIntoView({
         behavior: 'smooth',
         block: 'center'
       });
     }, 300);
   });
+});
+
+// Inisialisasi modal
+document.getElementById('add-transaction-btn').addEventListener('click', function() {
+  document.querySelector('.modal').style.display = 'flex';
+});
+
+document.querySelector('.close-btn').addEventListener('click', function() {
+  document.querySelector('.modal').style.display = 'none';
 });
