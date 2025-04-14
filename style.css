@@ -528,20 +528,6 @@ input[type="radio"]:checked + .expense-radio {
   flex: 1;
   padding-right: 0.5rem; /* Untuk memberi ruang scrollbar */
 }
-
-/* Scrollbar Styling */
-#transaction-form::-webkit-scrollbar {
-  width: 6px;
-}
-
-#transaction-form::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 3px;
-}
-
-#transaction-form::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-}
 /* Responsive Design */
 @media (max-width: 600px) {  
     /* Modal */
@@ -552,9 +538,8 @@ input[type="radio"]:checked + .expense-radio {
       
       /* Form */
     #transaction-form {
-        max-height: calc(90vh - 120px);
-        overflow-y: auto;
-        padding-bottom: 20px;
+    max-height: calc(85vh - 120px); /* Tinggi modal - tinggi header dan tombol */
+    padding-bottom: 1rem;
     }
 
     .app-header h1 {

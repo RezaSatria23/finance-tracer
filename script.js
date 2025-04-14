@@ -731,3 +731,13 @@ document.querySelectorAll('#transaction-form input, #transaction-form select, #t
     }, 300);
   });
 });
+document.querySelectorAll('#transaction-form input').forEach(input => {
+    input.addEventListener('focus', () => {
+      setTimeout(() => {
+        input.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }, 300);
+    });
+  });
